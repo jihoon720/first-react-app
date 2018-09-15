@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
-import Info from './Info'
 
 class User extends Component{
   render(){
     return(
       <div>
-        <h4>Name: {this.props.name} | Age: {this.props.age}</h4>
+        Name: {this.props.name} | Age: {this.props.age}
       </div>
     )
   }
