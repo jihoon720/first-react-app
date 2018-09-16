@@ -3,12 +3,19 @@ import './App.css';
 import Textbooks from './users/Textbooks';
 import Users from './users/Users';
 import Parent from './components/parentToChild/Parent';
+import Course from './components/Course';
+
 
 class App extends Component{
 
   state = {
     name: 'state: Ji Hoon Lee',
-    title: 'Title for chidlren'
+    title: 'Title for chidlren',
+    courses:[
+      {id: "asdf", name: 'CS3413', prof: 'Ken'},
+      {id: "qewr", name: 'CE3963', prof: 'Yuri'},
+      {id: "zxcv", name: 'SWE4401', prof: 'Blitzcrank'}
+    ]
   }
 
   changeName = (newName) => {
@@ -29,6 +36,30 @@ class App extends Component{
     })
   }
 
+  deleteUser = (index, e)=>{
+    //state cannot be mutated!
+    //create a duplicate array by Object.assign. Now courses variable has duplicate items of this.state.courses
+    const courses = Object.assign([], this.state.courses);
+    courses.splice(index, 1); //splice(index, howmany);
+    this.setState({
+      courses: courses
+    });
+  }
+
+  changeCourseName = (id, e)=>{
+    const index = this.state.courses.findIndex((course)=>{
+      return course.id === id
+    });
+    const course = Object.assign({}, this.state.courses[index]);
+    course.name = e.target.value;
+
+    const courses = Object.assign([], this.state.courses);
+    courses[index] = course;
+    this.setState({
+      courses: courses
+    });
+  }
+
   render(){
     return(
       <div className="App">
@@ -45,6 +76,17 @@ class App extends Component{
         <Parent changeTheWorldEvent={this.changeTheWorld.bind(this, 'Changed the World!')} 
                 keepTheWorldSameEvent={this.changeTheWorld.bind(this, 'Kept the World Same!')}
                 title={this.state.title}/>
+        <h1>COURSE LIST!</h1>
+        <ul>
+          {
+            this.state.courses.map((course, index)=>{
+              return(
+                <Course prof={course.prof} key={course.id} delEvent={this.deleteUser.bind(this, index)} changeEvent={this.changeCourseName.bind(this, course.id)}>{course.name}</Course>
+              )
+            })
+          }
+        </ul>
+
       </div>
     )
   }
