@@ -1,9 +1,19 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import './App.css';
 import Textbooks from './users/Textbooks';
 import Users from './users/Users';
 import Parent from './components/parentToChild/Parent';
 import Course from './components/Course';
+
+
+const Temp = () => {
+  return(
+    <Fragment>
+      <div>Hi</div>
+      <div>Hello</div>
+    </Fragment>
+  )
+}
 
 
 class App extends Component{
@@ -86,7 +96,8 @@ class App extends Component{
             })
           }
         </ul>
-
+        <h1>FRAGMENTS</h1>
+        <Temp/>
       </div>
     )
   }
