@@ -4,7 +4,7 @@ import Textbooks from './users/Textbooks';
 import Users from './users/Users';
 import Parent from './components/parentToChild/Parent';
 import Course from './components/Course';
-
+import Children from './Children';
 
 const Temp = () => {
   return(
@@ -15,8 +15,48 @@ const Temp = () => {
   )
 }
 
-
 class App extends Component{
+  
+  //executed first
+  constructor(){
+    super();
+    console.log("constructor");
+  }
+  
+  //executed second
+  componentWillMount(){
+    if(window.innerWidth < 500){
+      this.setState({
+        innerWidth: window.innerWidth
+      });
+    }
+    console.log("componentWillMount");
+  }
+
+  //executed after render
+  //so for example, if App.js has some child component
+  //after child component is mounted, it will executed componentDidMount();
+  //telling child component has successfully been mounted
+  componentDidMount(){
+    console.log("componentDidMount");
+  }
+
+  componentWillReceiveProps(){
+    console.log("componentWillReceiveProps");
+  }
+
+  componentWillUpdate(){
+    console.log("componentWillUpdate");
+  }
+
+  componentDidUpdate(nextProps, nextState){
+    console.log("componentDidUpdate");
+    return true;
+  }
+
+  componentWillUnmount(){
+    console.log("componentWillUnmount");
+  }
 
   state = {
     name: 'state: Ji Hoon Lee',
@@ -27,6 +67,7 @@ class App extends Component{
       {id: "zxcv", name: 'SWE4401', prof: 'Blitzcrank'}
     ]
   }
+
 
   changeName = (newName) => {
     this.setState({
@@ -70,7 +111,26 @@ class App extends Component{
     });
   }
 
+  changeState = () =>{
+    this.setState({
+      name: 'Justin'
+    });
+  }
+
+  unmountChild = () =>{
+    this.setState({
+      name: 'robert'
+    });
+  }
+
   render(){
+    console.log("render");
+    //if state.name is robert, unmount child component
+    if(this.state.name === 'robert'){
+      return (
+        <div></div>
+      );
+    }
     return(
       <div className="App">
         <h1>CHANGING STATES</h1>
@@ -98,6 +158,11 @@ class App extends Component{
         </ul>
         <h1>FRAGMENTS</h1>
         <Temp/>
+        <h1>LIFECYCLE HOOKS</h1>
+        {this.state.innerWidth}
+        <Children name={this.state.name}/>
+        <button onClick={this.changeState.bind(this)}>Change State</button>
+        <button onClick={this.unmountChild.bind(this)}>Unmount Child</button>
       </div>
     )
   }
